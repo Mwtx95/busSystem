@@ -15,3 +15,6 @@ class BusRouteViewSet(viewsets.ReadOnlyModelViewSet):
 class BookingViewSet(viewsets.ModelViewSet):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
+
+def map_view(request):
+    return render(request, 'map.html')

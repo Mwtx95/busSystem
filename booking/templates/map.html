@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Reservation Map</title>
+    
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h2>Bus Stations & Routes</h2>
+    <div id="map"></div>
+
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([-6.1659, 39.1916], 12); // Adjust to your city coordinates
+
+        // Add OpenStreetMap Tile Layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Fetch Bus Stations GeoJSON
+        fetch('/api/bus-stations/')
+        .then(response => response.json())
+        .then(data => {
+            L.geoJSON(data, {
+                pointToLayer: function (feature, latlng) {
+                    return L.marker(latlng).bindPopup(`<b>${feature.properties.name}</b>`);
+                }
+            }).addTo(map);
+        });
+
+        // Fetch Bus Routes GeoJSON
+        fetch('/api/bus-routes/')
+        .then(response => response.json())
+        .then(data => {
+            L.geoJSON(data, {
+                style: { color: "blue", weight: 3 }
+            }).addTo(map);
+        });
+
+    </script>
+</body>
+</html>
