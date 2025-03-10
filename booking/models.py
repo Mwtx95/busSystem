@@ -4,7 +4,7 @@ from django.contrib.gis.db import models
 
 class BusStation(models.Model):
     name = models.CharField(max_length=100)
-    location = models.PointField()  # Stores spatial point data
+    location = models.PointField()
 
     def __str__(self):
         return self.name
@@ -12,7 +12,7 @@ class BusStation(models.Model):
 
 class BusRoute(models.Model):
     name = models.CharField(max_length=100)
-    route = models.LineStringField()  # Stores spatial line data
+    route = models.LineStringField()
 
     def __str__(self):
         return self.name
